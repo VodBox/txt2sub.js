@@ -48,10 +48,12 @@
 			
 			const buttonEl = document.getElementById("convert");
 
-			transcriptEl.addEventListener("input", () => {
+			let resizeTranscript = () => {
 				transcriptEl.style.height = "100px";
 				transcriptEl.style.height = transcriptEl.scrollHeight + "px";
-			});
+			};
+
+			transcriptEl.addEventListener("input", resizeTranscript);
 
 			let prevValue = "";
 			videoLengthEl.addEventListener("input", () => {
@@ -107,10 +109,12 @@
 						console.log(item);
 						item.getAsFile().text().then((s) => {
 							transcriptEl.value = s;
+							resizeTranscript();
 						});
 					} else if (item.kind == "string" && item.type === "text/plain") {
 						item.getAsString((s) => {
 							transcriptEl.value = s;
+							resizeTranscript();
 						})
 					}
 				}
