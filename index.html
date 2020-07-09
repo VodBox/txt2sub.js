@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Text to Subtitle/Caption Converter</title>
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+		<link href="css/style.css" type="text/css" rel="stylesheet" />
+		<script src="js/txt2sub.js" type="text/javascript"></script>
+		<script src="js/FileSaver.min.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<h1>txt2sub</h1>
+			</header>
+			<section id="text">
+				<label for="transcript">Transcript:</label>
+				<textarea id="transcript" name="transcript"></textarea>
+			</section>
+			<section id="options">
+				<p>
+					<label for="blankLines">Ignore Blank Lines</label>
+					<input checked type="checkbox" id="blankLines" name="blankLines" />
+				</p>
+				<p>
+					<label for="videoLength">Video Length (m:ss)</label>
+					<input id="videoLength" name="videoLength" placeholder="1:00" type="text" />
+				</p>
+				<p>
+					<label for="format">Subtitle Format</label>
+					<select id="format" name="format">
+						<option value="srt">SRT</option>
+					</select>
+				</p>
+				<button id="convert">Convert</button>
+			</section>
+			<div id="dropZone">
+				<h2>Drop Text File Here...</h2>
+			</div>
+		</div>
+		<script>
+			const transcriptEl = document.getElementById("transcript");
+			const blankLinesEl = document.getElementById("blankLines");
+			const videoLengthEl = document.getElementById("videoLength");
+			const formatEl = document.getElementById("format");
+
+			const dropZoneEl = document.getElementById("dropZone");
+			
+			const buttonEl = document.getElementById("convert");
+
+			transcriptEl.addEventListener("input", () => {
+				transcriptEl.style.height = "100px";
+				transcriptEl.style.height = transcriptEl.scrollHeight + "px";
+			});
+
+			let prevValue = "";
+			videoLengthEl.addEventListener("input", () => {
+				if (videoLengthEl.value.match(/^(\d*$|\d+:)\d*$/)) {
+					prevValue = videoLengthEl.value;
+				} else {
+					videoLengthEl.value = prevValue;
+				}
+			});
+
+			let dragCount = 0;
+
+			window.addEventListener("dragenter", (e) => {
+				dropZoneEl.style.display = "block";
+				++dragCount;
+				e.preventDefault();
+			});
+
+			window.addEventListener("dragover", (e) => {
+				e.preventDefault();
+			});
+
+			window.addEventListener("dragleave", (e) => {
+				--dragCount;
+				setTimeout(() => {
+					if (dragCount === 0)
+						dropZoneEl.style.display = "none";
+				}, 100);
+			})
+
+			dropZoneEl.addEventListener("dragover", (e) => {
+				dropZoneEl.classList.add("over");
+				e.preventDefault();
+			});
+
+			dropZoneEl.addEventListener("dragenter", (e) => {
+				e.preventDefault();
+				++dragCount;
+			});
+
+			dropZoneEl.addEventListener("dragexit", (e) => {
+				dropZoneEl.classList.remove("over");
+				e.preventDefault();
+				--dragCount;
+			});
+
+			dropZoneEl.addEventListener("drop", (e) => {
+				e.preventDefault();
+
+				if (e.dataTransfer.items) {
+					let item = e.dataTransfer.items[0];
+					if (item.kind == "file" && item.type === "text/plain") {
+						console.log(item);
+						item.getAsFile().text().then((s) => {
+							transcriptEl.value = s;
+						});
+					} else if (item.kind == "string" && item.type === "text/plain") {
+						item.getAsString((s) => {
+							transcriptEl.value = s;
+						})
+					}
+				}
+				
+				dropZoneEl.style.display = "none";
+				dragCount = 0;
+			});
+
+			buttonEl.addEventListener("click", () => {
+				let videoLength = 0;
+
+				if (videoLengthEl.value.length == 0) {
+					videoLength = 60;
+				} if (videoLengthEl.value.match(/^\d+$/)) {
+					videoLength = Number.parseInt(videoLengthEl.value);
+				} else if (videoLengthEl.value.match(/^\d*:\d*$/)) {
+					let minutes = videoLengthEl.value.match(/^(\d*):\d*$/)[1];
+					let seconds = videoLengthEl.value.match(/^\d*:(\d*)$/)[1];
+
+					if (minutes.length > 0) {
+						videoLength += Number.parseInt(minutes) * 60;
+					}
+
+					if (seconds.length > 0) {
+						videoLength += Number.parseInt(seconds);
+					}
+				}
+
+				let res;
+
+				if (formatEl.value === "srt") {
+					res = txt2srt(transcriptEl.value, {
+						ignoreEmptyLines: blankLinesEl.value,
+						videoLength: videoLength,
+					});
+
+					let blob = new Blob([res], {type: "text/plain;charset=utf-8"});
+					saveAs(blob, "captions.srt");
+				} else {
+					alert("Not implemented yet.");
+				}
+			});
+		</script>
+	</body>
+</html>

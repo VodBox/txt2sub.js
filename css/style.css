@@ -1,0 +1,120 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	color: white;
+	background-color: #181818;
+}
+
+.container {
+	max-width: 960px;
+	width: 100%;
+	margin: 20px auto 0 auto;
+	background-color: rgb(59, 59, 59);
+	padding: 30px;
+
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+
+	box-shadow: 3px 5px 3px rgba(0, 0, 0, 0.3);
+
+	position: relative;
+}
+
+h1 {
+	font-size: 64px;
+	margin: 0;
+}
+
+header {
+	margin-bottom: 20px;
+}
+
+button {
+	min-width: 192px;
+	min-height: 48px;
+	background-color: #019980;
+	color: white;
+	font-family: sans-serif;
+	font-size: 22px;
+	display: block;
+	margin: 0 auto;
+	border: none;
+	border-radius: 8px;
+	box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+section {
+	margin-top: 20px;
+}
+
+#dropZone {
+	width: 100%;
+	height: 100%;
+	border: 4px dashed grey;
+	position: absolute;
+
+	top: -4px;
+	left: -4px;
+	background-color: rgba(37, 37, 37, 0.8);
+	text-align: center;
+	padding: 0;
+
+	display: none;
+}
+
+#dropZone h2 {
+	position: relative;
+	top: 50%;
+	margin: 0;
+	transform: translateY(-50%);
+	text-shadow: 0 0 15px rgba(0, 0, 0, 1);
+}
+
+#dropZone.over {
+	border: 4px dashed rgb(173, 216, 230);
+	background-color: rgba(51, 57, 59, 0.8);
+}
+
+textarea {
+	resize: none;
+	width: 100%;
+	margin-top: 5px;
+	min-height: 100px;
+	max-height: 400px;
+}
+
+#options p {
+	height: 32px;
+	line-height: 32px;
+	font-size: 20px;
+}
+
+#options p * {
+	float: left;
+}
+
+label {
+	margin: 0;
+	padding: 0;
+}
+
+input, select {
+	min-height: 20px;
+	min-width: 20px;
+	margin-left: 10px;
+}
+
+select {
+	height: 32px;
+	padding: 2px;
+}
+
+input[type="checkbox"] {
+	margin-top: 5px;
+}
+
+input[type="text"] {
+	margin-top: 3px;
+}
