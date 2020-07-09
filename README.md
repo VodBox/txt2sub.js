@@ -39,7 +39,7 @@ Currently the only format supported for conversion is to the SRT timed text form
 
 ```javascript
 txt2srt(text, {
-    ignoreEmptyLines: true,
+    splitOnEmptyLines: true,
     videoLength: 60
 });
 ```

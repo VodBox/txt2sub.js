@@ -7,7 +7,7 @@
 	var defaultOptions = function(options) {
 		options = defaultValue(options, {});
 		options.videoLength = defaultValue(options.videoLength, 60);
-		options.splitOnEmptyLines = defaultValue(options.splitOnEmptyLines, true);
+		options.splitOnEmptyLines = defaultValue(options.splitOnEmptyLines, false);
 		return options;
 	}
 
