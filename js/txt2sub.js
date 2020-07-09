@@ -7,7 +7,7 @@
 	var defaultOptions = function(options) {
 		options = defaultValue(options, {});
 		options.videoLength = defaultValue(options.videoLength, 60);
-		options.ignoreEmptyLines = defaultValue(options.ignoreEmptyLines, true);
+		options.splitOnEmptyLines = defaultValue(options.splitOnEmptyLines, true);
 		return options;
 	}
 
@@ -34,10 +34,15 @@
 
 		text = text.replace(/\r\n/gm, "\n");
 
-		if (options.ignoreEmptyLines)
-			text = text.replace(/^\n/gm, "");
+		var lines;
 
-		var lines = text.split("\n");
+		if (options.splitOnEmptyLines) {
+			lines = text.split("\n\n");
+		} else {
+			text = text.replace(/^\n/gm, "");
+			lines = text.split("\n");
+		}
+
 		var timeDelta = options.videoLength / lines.length;
 
 		var out = "";

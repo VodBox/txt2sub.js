@@ -19,8 +19,8 @@
 			</section>
 			<section id="options">
 				<p>
-					<label for="blankLines">Ignore Blank Lines</label>
-					<input checked type="checkbox" id="blankLines" name="blankLines" />
+					<label for="blankLines">Split Only On Blank Lines</label>
+					<input type="checkbox" id="blankLines" name="blankLines" />
 				</p>
 				<p>
 					<label for="videoLength">Video Length (m:ss)</label>
@@ -143,7 +143,7 @@
 
 				if (formatEl.value === "srt") {
 					res = txt2srt(transcriptEl.value, {
-						ignoreEmptyLines: blankLinesEl.value,
+						splitOnEmptyLines: blankLinesEl.value,
 						videoLength: videoLength,
 					});
 
