@@ -25,8 +25,9 @@
 		var hour = leadingZero(Math.floor(time / 3600), 2);
 		var min = leadingZero(Math.floor(time / 60) % 60, 2);
 		var sec = leadingZero(Math.floor(time) % 60, 2);
+		var ms = leadingZero(Math.floor(time * 1000) % 1000, 3);
 
-		return hour + ":" + min + ":" + sec + ",000";
+		return hour + ":" + min + ":" + sec + "," + ms;
 	};
 
 	txt2srt = function(text, options) {
