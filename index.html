@@ -147,7 +147,7 @@
 
 				if (formatEl.value === "srt") {
 					res = txt2srt(transcriptEl.value, {
-						splitOnEmptyLines: blankLinesEl.value,
+						splitOnEmptyLines: blankLinesEl.value === "on",
 						videoLength: videoLength,
 					});
 
