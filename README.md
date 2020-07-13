@@ -1,6 +1,8 @@
 # txt2sub.js - Text to Captions/Subtitle Conversion Library
 txt2sub takes raw text as a string, and converts to a valid caption/subtitle format that will be understood by many subtitle editors, or non-linear editors.
 
+Example: [https://vodbox.github.io/txt2sub.js/](https://vodbox.github.io/txt2sub.js/)
+
 ## Supported Formats
 Currently the only format supported for conversion is to the SRT timed text format.
 
